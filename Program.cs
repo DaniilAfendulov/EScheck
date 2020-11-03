@@ -28,20 +28,21 @@ namespace EScheck
 
 
             // свободные переменные
-            double[] fv = new double[] { 1, 2 };    // x5,x2
+            double[] fv = new double[] { 1, 2 };    // x1,x3
 
 
             // базисные переменные выраженные через свободные
             double[] bv = BasicVars(fv, new double[][]
             {
-                new double[]{ 1, -1, 1 },   // x3
-                new double[]{ 5, -1, 3 },   // x4
-                new double[]{ 4, 1, 0 },    // x1
-                new double[]{ 4, -1, 2 }    // x6
+                new double[]{ 5, 1, 1 },    // x2
+                new double[]{ -6, -2, -3 }, // x4
+                new double[]{ 4, 1, 0 },    // x5
+                new double[]{ -2, -1, -2 }  // x6
             });
 
             // подстановка переменных 
-            double[] variables = new double[] { bv[2], fv[1], bv[0], bv[1], fv[0], bv[3]};
+            // x1, x2, x3, x4, x5 *Главное порядок!!!
+            double[] variables = new double[] { fv[0],  bv[0], fv[1], bv[1], bv[2], bv[3]};
 
             // ответный столбец
             double[] ans = new double[] { 5,9,4,8};
