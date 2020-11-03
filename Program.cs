@@ -6,18 +6,24 @@ namespace LEScheck
     {
         static void Main(string[] args)
         {
-            Func<double[],double>[] funcs = new Func<double[], double>[]
+            Func<double[], double>[] funcs = LinearEquations(new double[][] 
             {
-                /*(x)=>   x[0]+x[1]+x[2],
-                (x)=>   x[0]+3*x[1]+x[3],
-                (x)=>   x[0]+x[4],
-                (x)=>   x[0]+2*x[1]+x[5],*/
-                LinearEquation(new double[]{ 1,1,1,0,0,0}),
-                LinearEquation(new double[]{ 1,3,0,1,0,0}),
-                LinearEquation(new double[]{ 1,0,0,0,1,0}),
-                LinearEquation(new double[]{ 1,2,0,0,0,1})
-
-            };
+                new double[]{ 1, 1, 1, 0, 0, 0 },
+                new double[]{ 1, 3, 0, 1, 0, 0 },
+                new double[]{ 1, 0, 0, 0, 1, 0 },
+                new double[]{ 1, 2, 0, 0, 0, 1 }
+            });
+            //    new Func<double[], double>[]
+            //{
+            //    /*(x)=>   x[0]+x[1]+x[2],
+            //    (x)=>   x[0]+3*x[1]+x[3],
+            //    (x)=>   x[0]+x[4],
+            //    (x)=>   x[0]+2*x[1]+x[5],*/
+            //    /*LinearEquation(new double[]{ 1,1,1,0,0,0}),
+            //    LinearEquation(new double[]{ 1,3,0,1,0,0}),
+            //    LinearEquation(new double[]{ 1,0,0,0,1,0}),
+            //    LinearEquation(new double[]{ 1,2,0,0,0,1})*/
+            //};
 
 
             // свободные переменные
@@ -83,6 +89,21 @@ namespace LEScheck
                 }
                 return ans;
             };
+        }
+
+        /// <summary>
+        /// Method of creation Linear Equation System by a coefficient matrix
+        /// </summary>
+        /// <param name="coef">a coefficient matrix</param>
+        /// <returns></returns>
+        static Func<double[], double>[] LinearEquations(double[][] coef)
+        {
+            Func<double[], double>[] funcs = new Func<double[], double>[coef.Length];
+            for (int i = 0; i < funcs.Length; i++)
+            {
+                funcs[i] = LinearEquation(coef[i]);
+            }
+            return funcs;
         }
     }
 }
