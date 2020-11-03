@@ -67,6 +67,11 @@ namespace LEScheck
             return ans;
         }
 
+        /// <summary>
+        /// Method of creation Linear Equation by a coefficient array
+        /// </summary>
+        /// <param name="coef">a coefficient array</param>
+        /// <returns></returns>
         static Func<double[],double> LinearEquation(double[] coef)
         {
             return (x) =>
