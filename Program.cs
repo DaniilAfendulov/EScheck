@@ -14,7 +14,7 @@ namespace EScheck
                 new double[]{ 1, 2, 0, 0, 0, 1 }
             });
             // equivalent records:
-            //    new Func<double[], double>[]
+            //Func<double[], double>[] funcs = new Func<double[], double>[]
             //{
             //    /*(x)=>   x[0]+x[1]+x[2],
             //    (x)=>   x[0]+3*x[1]+x[3],
@@ -28,19 +28,20 @@ namespace EScheck
 
 
             // свободные переменные
-            double[] fv = new double[] { 1, 2 };
+            double[] fv = new double[] { 1, 2 };    // x5,x2
+
 
             // базисные переменные выраженные через свободные
             double[] bv = BasicVars(fv, new double[][]
             {
-                new double[]{ 1, -1, 1 },
-                new double[]{ 2, 2, -3 },
-                new double[]{ 4, 1, 0 },
-                new double[]{ 4, -1, 2 }
+                new double[]{ 1, -1, 1 },   // x3
+                new double[]{ 5, -1, 3 },   // x4
+                new double[]{ 4, 1, 0 },    // x1
+                new double[]{ 4, -1, 2 }    // x6
             });
 
             // подстановка переменных 
-            double[] variables = new double[] { bv[2],bv[0],fv[0],bv[1],fv[1],bv[3] };
+            double[] variables = new double[] { bv[2], fv[1], bv[0], bv[1], fv[0], bv[3]};
 
             // ответный столбец
             double[] ans = new double[] { 5,9,4,8};
