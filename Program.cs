@@ -30,13 +30,20 @@ namespace LEScheck
             double[] fv = new double[] { 1, 2 };
 
             // базисные переменные выраженные через свободные
-            double[] bv = new double[]
+            double[] bv = BasicVars(fv, new double[][]
             {
-                BasicVar(new double[] { 1,-1,1},    fv),
-                BasicVar(new double[] { 2,2,-3},    fv),
-                BasicVar(new double[] { 4,1,0},         fv),
-                BasicVar(new double[] { 4,-1,2},     fv)
-            };
+                new double[]{ 1, -1, 1 },
+                new double[]{ 2, 2, -3 },
+                new double[]{ 4, 1, 0 },
+                new double[]{ 4, -1, 2 }
+            });
+            //    = new double[]
+            //{
+            //    BasicVar(new double[] { 1,-1,1},    fv),
+            //    BasicVar(new double[] { 2,2,-3},    fv),
+            //    BasicVar(new double[] { 4,1,0},         fv),
+            //    BasicVar(new double[] { 4,-1,2},     fv)
+            //};
 
             // подстановка переменных 
             double[] variables = new double[] { bv[2],bv[0],fv[0],bv[1],fv[1],bv[3] };
@@ -104,6 +111,22 @@ namespace LEScheck
                 funcs[i] = LinearEquation(coef[i]);
             }
             return funcs;
+        }
+
+        /// <summary>
+        /// Computing an array of basic variables by free variables and basic vars coefficient
+        /// </summary>
+        /// <param name="fv">free variables</param>
+        /// <param name="coef">basic variables coefficient</param>
+        /// <returns></returns>
+        static double[] BasicVars(double[] fv, double[][] coef)
+        {
+            double[] bv = new double[coef.Length];
+            for (int i = 0; i < bv.Length; i++)
+            {
+                bv[i] = BasicVar(coef[i], fv);
+            }
+            return bv;
         }
     }
 }
