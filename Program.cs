@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LEScheck
+namespace EScheck
 {
     class Program
     {
@@ -13,6 +13,7 @@ namespace LEScheck
                 new double[]{ 1, 0, 0, 0, 1, 0 },
                 new double[]{ 1, 2, 0, 0, 0, 1 }
             });
+            // equivalent records:
             //    new Func<double[], double>[]
             //{
             //    /*(x)=>   x[0]+x[1]+x[2],
@@ -37,13 +38,6 @@ namespace LEScheck
                 new double[]{ 4, 1, 0 },
                 new double[]{ 4, -1, 2 }
             });
-            //    = new double[]
-            //{
-            //    BasicVar(new double[] { 1,-1,1},    fv),
-            //    BasicVar(new double[] { 2,2,-3},    fv),
-            //    BasicVar(new double[] { 4,1,0},         fv),
-            //    BasicVar(new double[] { 4,-1,2},     fv)
-            //};
 
             // подстановка переменных 
             double[] variables = new double[] { bv[2],bv[0],fv[0],bv[1],fv[1],bv[3] };
@@ -51,11 +45,16 @@ namespace LEScheck
             // ответный столбец
             double[] ans = new double[] { 5,9,4,8};
 
-            LESCheck(funcs, variables, ans);
+            ESCheck(funcs, variables, ans);
             Console.ReadLine();
         }
-
-        static void LESCheck(Func<double[], double>[] funcs, double[] roots, double[] ans)
+        /// <summary>
+        /// Inserts roots in the functions and show result and expected answer in Console
+        /// </summary>
+        /// <param name="funcs">equation system or set of functions</param>
+        /// <param name="roots">roots of equation system</param>
+        /// <param name="ans">expected answer</param>
+        static void ESCheck(Func<double[], double>[] funcs, double[] roots, double[] ans)
         {
             for (int i = 0; i < funcs.Length; i++)
             {
