@@ -8,8 +8,15 @@ namespace LEScheck
         {
             Func<double[],double>[] funcs = new Func<double[], double>[]
             {
-                (x)=>   5*x[0]     +2*x[1]   +x[2],
-                (x)=>   6*x[0]   +12*x[1]   +x[3]        
+                /*(x)=>   x[0]+x[1]+x[2],
+                (x)=>   x[0]+3*x[1]+x[3],
+                (x)=>   x[0]+x[4],
+                (x)=>   x[0]+2*x[1]+x[5],*/
+                LinearEquation(new double[]{ 1,1,1,0,0,0}),
+                LinearEquation(new double[]{ 1,3,0,1,0,0}),
+                LinearEquation(new double[]{ 1,0,0,0,1,0}),
+                LinearEquation(new double[]{ 1,2,0,0,0,1})
+
             };
 
 
@@ -19,15 +26,17 @@ namespace LEScheck
             // базисные переменные выраженные через свободные
             double[] bv = new double[]
             {
-                BasicVar(new double[] {4,1.0/5,2.0/5 }, fv),
-                BasicVar(new double[] { 48, -6.0 / 5, 48.0 / 5 }, fv)       
+                BasicVar(new double[] { 1,-1,1},    fv),
+                BasicVar(new double[] { 2,2,-3},    fv),
+                BasicVar(new double[] { 4,1,0},         fv),
+                BasicVar(new double[] { 4,-1,2},     fv)
             };
 
             // подстановка переменных 
-            double[] variables = new double[] { bv[0],fv[1],fv[0],bv[1]};
+            double[] variables = new double[] { bv[2],bv[0],fv[0],bv[1],fv[1],bv[3] };
 
             // ответный столбец
-            double[] ans = new double[] { 20,72};
+            double[] ans = new double[] { 5,9,4,8};
 
             LESCheck(funcs, variables, ans);
             Console.ReadLine();
@@ -56,6 +65,19 @@ namespace LEScheck
                 ans -= coef[i]*fv[i-1];
             }
             return ans;
+        }
+
+        static Func<double[],double> LinearEquation(double[] coef)
+        {
+            return (x) =>
+            {
+                double ans = 0;
+                for (int i = 0; i < coef.Length; i++)
+                {
+                    ans += coef[i] * x[i];
+                }
+                return ans;
+            };
         }
     }
 }
