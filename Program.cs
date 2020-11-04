@@ -68,6 +68,7 @@ namespace EScheck
             // ответный столбец
             double[] ans = new double[] { 2,6,7 };
 
+            Console.WriteLine("Результат проверки");
             ESCheck(funcs, variables, ans);
             Console.ReadLine();
         }
@@ -187,6 +188,12 @@ namespace EScheck
             return ans;
         }
 
+        /// <summary>
+        /// Выводит в консоль значения массивов(разделяя табом и строками),
+        /// исключая элементы удовлетв условию для индексов
+        /// </summary>
+        /// <param name="arr">массив, который нужно вывести</param>
+        /// <param name="exep">условие для индексов</param>
         static void Print(double[][] arr, Func<int, int, bool> exep)
         {
             for (int i = 0; i < arr.Length; i++)
