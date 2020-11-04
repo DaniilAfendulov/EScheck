@@ -54,7 +54,6 @@ namespace EScheck
                 new double[]{ 37.0/8,7.0/8},       // x4
                 new double[]{ 17.0/8,3.0/8},       // x2
                 new double[]{ 1.0/4,-1.0/4},       // x3
-                new double[]{ 9.0/4,-5.0/4}        // f
             };
             Print(jor) ;
 
