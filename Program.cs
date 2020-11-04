@@ -42,7 +42,7 @@ namespace EScheck
             List<int> jExec = new List<int>();
             Console.WriteLine("Изначальная таблица");
             Print(jor);
-            Print(jor = JordanStep(jor, 2, 3), IsJOneOf(new int[] { 3 }));
+            Print(jor = JordanStep(jor, 2, 3), IsJOneOf(new int[] { 3 }));  // IsJOneOf нажно, чтобы не отображались заданные столбцы
             Print(jor = JordanStep(jor, 0, 1), IsJOneOf(new int[] { 3, 1 }));
             Print(jor = JordanStep(jor, 1, 2), IsJOneOf(new int[] { 3, 1, 2 }));
             Print(jor = JordanStep(jor, 1, 4), IsJOneOf(new int[] { 3, 1, 2 }));
