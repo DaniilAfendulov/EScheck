@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace EScheck
 {
@@ -6,12 +7,11 @@ namespace EScheck
     {
         static void Main(string[] args)
         {
-            Func<double[], double>[] funcs = LinearEquations(new double[][] 
+            Func<double[], double>[] funcs = LinearEquations(new double[][]
             {
-                new double[]{ 1, 1, 1, 0, 0, 0 },
-                new double[]{ 1, 3, 0, 1, 0, 0 },
-                new double[]{ 1, 0, 0, 0, 1, 0 },
-                new double[]{ 1, 2, 0, 0, 0, 1 }
+                new double[]{ 1, 1, 2, -1 },
+                new double[]{ 2, 1, -3, 1 },
+                new double[]{ 1, 1, 1, 1 }
             });
             // equivalent records:
             //Func<double[], double>[] funcs = new Func<double[], double>[]
@@ -28,24 +28,47 @@ namespace EScheck
 
 
             // свободные переменные
-            double[] fv = new double[] { 1, 2 };    // x1,x3
+            double[] fv = new double[] { 8 };    // x1
 
+            double[][] jor = new double[][]
+            {
+                new double[]{ 2,1,1,2,-1},      // x4
+                new double[]{ 6,2,1,-3,1},      // x2
+                new double[]{ 7,1,1,1,1},       // x3
+                new double[]{ 0,-2,-1,1,1}      // f
+            };
+
+            // Шаги жорданова исключения
+            // Условие вторым параметром убирает ненужные элементы
+            // В данном случае это столбцы
+            List<int> jExec = new List<int>();
+            Console.WriteLine("Изначальная таблица");
+            Print(jor);
+            Print(jor = JordanStep(jor, 2, 3), IsJOneOf(new int[] { 3 }));
+            Print(jor = JordanStep(jor, 0, 1), IsJOneOf(new int[] { 3, 1 }));
+            Print(jor = JordanStep(jor, 1, 2), IsJOneOf(new int[] { 3, 1, 2 }));
+            Print(jor = JordanStep(jor, 1, 4), IsJOneOf(new int[] { 3, 1, 2 }));
+            Print(jor = JordanStep(jor, 0,4),  IsJOneOf(new int[] { 3, 1, 2 }));
+
+            Console.WriteLine("введенная таблица:");
+            jor = new double[][]
+            {
+                new double[]{ 37.0/8,7.0/8},       // x4
+                new double[]{ 17.0/8,3.0/8},       // x2
+                new double[]{ 1.0/4,-1.0/4},       // x3
+                new double[]{ 9.0/4,-5.0/4}        // f
+            };
+            Print(jor) ;
 
             // базисные переменные выраженные через свободные
-            double[] bv = BasicVars(fv, new double[][]
-            {
-                new double[]{ 5, 1, 1 },    // x2
-                new double[]{ -6, -2, -3 }, // x4
-                new double[]{ 4, 1, 0 },    // x5
-                new double[]{ -2, -1, -2 }  // x6
-            });
+            double[] bv = BasicVars(fv, jor);
 
             // подстановка переменных 
             // x1, x2, x3, x4, x5 *Главное порядок!!!
-            double[] variables = new double[] { fv[0],  bv[0], fv[1], bv[1], bv[2], bv[3]};
+            double[] variables = new double[] { fv[0], bv[1], bv[2], bv[0] };
 
             // ответный столбец
-            double[] ans = new double[] { 5,9,4,8};
+            double[] ans = new double[] { 2,6,7 };
 
             ESCheck(funcs, variables, ans);
             Console.ReadLine();
@@ -76,7 +99,7 @@ namespace EScheck
             double ans = coef[0];
             for (int i = 1; i < coef.Length; i++)
             {
-                ans -= coef[i]*fv[i-1];
+                ans -= coef[i] * fv[i - 1];
             }
             return ans;
         }
@@ -86,7 +109,7 @@ namespace EScheck
         /// </summary>
         /// <param name="coef">a coefficient array</param>
         /// <returns></returns>
-        static Func<double[],double> LinearEquation(double[] coef)
+        static Func<double[], double> LinearEquation(double[] coef)
         {
             return (x) =>
             {
@@ -128,6 +151,75 @@ namespace EScheck
                 bv[i] = BasicVar(coef[i], fv);
             }
             return bv;
+        }
+
+        /// <summary>
+        /// Make Jordan step
+        /// </summary>
+        /// <param name="coef"></param>
+        /// <param name="ind1"></param>
+        /// <param name="ind2"></param>
+        /// <returns></returns>
+        static double[][] JordanStep(double[][] coef, int ind1, int ind2)
+        {
+            double[][] ans = new double[coef.Length][];
+            for (int i = 0; i < coef.Length; i++)
+            {
+                ans[i] = new double[coef[i].Length];
+                for (int j = 0; j < coef[i].Length; j++)
+                {
+                    if (i == ind1 && j == ind2)
+                    {
+                        ans[i][j] = 1.0 / coef[ind1][ind2];
+                        continue;
+                    }
+                    if (i == ind1)
+                    {
+                        ans[i][j] = coef[i][j] / coef[ind1][ind2];
+                        continue;
+                    }
+                    if (j == ind2)
+                    {
+                        ans[i][j] = -coef[i][j] / coef[ind1][ind2];
+                        continue;
+                    }
+                    ans[i][j] = coef[i][j] - (coef[i][ind2] * coef[ind1][j]) / coef[ind1][ind2];
+                }
+            }
+            return ans;
+        }
+
+        static void Print(double[][] arr, Func<int, int, bool> exep)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                for (int j = 0; j < arr[i].Length; j++)
+                {
+                    if (exep(i,j))
+                    {
+                        continue;
+                    }
+                    Console.Write(Math.Round(arr[i][j],4)+"\t");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+        }
+        static void Print(double[][] arr) => Print(arr, (i, j) => false);
+
+        static Func<int,int,bool> IsJOneOf(int[] nums)
+        {
+            return (i, j) =>
+            {
+                foreach (var num in nums)
+                {
+                    if (num == j)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            };
         }
     }
 }
