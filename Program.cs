@@ -16,14 +16,12 @@ namespace EScheck
             // equivalent records:
             //Func<double[], double>[] funcs = new Func<double[], double>[]
             //{
-            //    /*(x)=>   x[0]+x[1]+x[2],
-            //    (x)=>   x[0]+3*x[1]+x[3],
-            //    (x)=>   x[0]+x[4],
-            //    (x)=>   x[0]+2*x[1]+x[5],*/
-            //    /*LinearEquation(new double[]{ 1,1,1,0,0,0}),
-            //    LinearEquation(new double[]{ 1,3,0,1,0,0}),
-            //    LinearEquation(new double[]{ 1,0,0,0,1,0}),
-            //    LinearEquation(new double[]{ 1,2,0,0,0,1})*/
+            //    /*(x)=>   x[0]+x[1]+2*x[2]-x[3],
+            //    (x)=>   2*x[0]+x[1]-3*x[2]+x[3],
+            //    (x)=>   x[0]+x[1]+x[2]+x[3]*/
+            //  /*LinearEquation(new double[]{ 1, 1, 2, -1 }),
+            //    LinearEquation(new double[]{ 2, 1, -3, 1 }),
+            //    LinearEquation(new double[]{ 1, 1, 1, 1 })*/
             //};
 
 
