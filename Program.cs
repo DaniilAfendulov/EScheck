@@ -25,8 +25,6 @@ namespace EScheck
             //};
 
 
-            // свободные переменные
-            double[] fv = new double[] { 8 };    // x1
 
             double[][] jor = new double[][]
             {
@@ -42,27 +40,29 @@ namespace EScheck
             List<int> jExec = new List<int>();
             Console.WriteLine("Изначальная таблица");
             Print(jor);
-            Print(jor = JordanStep(jor, 2, 3), IsJOneOf(new int[] { 3 }));  // IsJOneOf нажно, чтобы не отображались заданные столбцы
-            Print(jor = JordanStep(jor, 0, 1), IsJOneOf(new int[] { 3, 1 }));
-            Print(jor = JordanStep(jor, 1, 2), IsJOneOf(new int[] { 3, 1, 2 }));
-            Print(jor = JordanStep(jor, 1, 4), IsJOneOf(new int[] { 3, 1, 2 }));
-            Print(jor = JordanStep(jor, 0,4),  IsJOneOf(new int[] { 3, 1, 2 }));
+            Print(jor = JordanStep(jor, 0, 1), IsJOneOf(new int[] { 1 }));  // IsJOneOf нажно, чтобы не отображались заданные столбцы
+            Print(jor = JordanStep(jor, 1, 4), IsJOneOf(new int[] { 4, 1 }));
+            Print(jor = JordanStep(jor, 2, 3), IsJOneOf(new int[] { 3, 1, 4 }));    // когда скрыли макс число столбцов, это значение больше менять не нужно
+            Print(jor = JordanStep(jor, 0, 2), IsJOneOf(new int[] { 3, 1, 4 }));
 
             Console.WriteLine("введенная таблица:");
             jor = new double[][]
             {
-                new double[]{ 37.0/8,7.0/8},       // x4
-                new double[]{ 17.0/8,3.0/8},       // x2
-                new double[]{ 1.0/4,-1.0/4},       // x3
+                new double[]{ 4.125,1.375},       // x2
+                new double[]{ 2.625,-0.125},       // x4
+                new double[]{ 0.25,-0.25},       // x3
             };
             Print(jor) ;
+
+            // свободные переменные
+            double[] fv = new double[] { 4.55 };    // x1
 
             // базисные переменные выраженные через свободные
             double[] bv = BasicVars(fv, jor);
 
             // подстановка переменных 
             // x1, x2, x3, x4, x5 *Главное порядок!!!
-            double[] variables = new double[] { fv[0], bv[1], bv[2], bv[0] };
+            double[] variables = new double[] { fv[0], bv[0], bv[2], bv[1] };
 
             // ответный столбец
             double[] ans = new double[] { 2,6,7 };
